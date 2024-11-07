@@ -19,18 +19,18 @@ const useData = <T>(endpoint: string) => {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     const controller = new AbortController();
+    setLoading(true);
     apiClient
       .get<FetchResponse<T>>(endpoint, { signal: controller.signal })
       .then((res) => {
-        setLoading(false);
         setData(res.data.results);
+        setLoading(false);
       })
       .catch((err) => {
-        setLoading(false);
         if (err instanceof CanceledError) return;
         setError(err.message);
+        setLoading(false);
       });
 
     return () => controller.abort();
