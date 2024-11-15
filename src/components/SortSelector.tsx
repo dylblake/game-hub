@@ -3,11 +3,24 @@ import { FaChevronDown } from "react-icons/fa";
 import { GameQuery } from "../App";
 
 interface Props {
-  gameQuery: GameQuery;
-  onSelectSort: () => void;
+  onSelectSortOrder: (sortOrder: string) => void;
+  selectedSortOrder: string;
 }
 
-const SortSelector = () => {
+const SortSelector = ({ onSelectSortOrder, selectedSortOrder }: Props) => {
+  const sortOrders = [
+    { value: "", label: "Relevance" },
+    { value: "-added", label: "Date added" },
+    { value: "name", label: "Name" },
+    { value: "-released", label: "Release date" },
+    { value: "-metacritic", label: "Popularity" },
+    { value: "-rating", label: "Average rating" },
+  ];
+
+  const sortOrderLabel =
+    sortOrders.find((el) => el.value === selectedSortOrder)?.label ||
+    "Relevance";
+
   return (
     <Menu>
       <MenuButton
@@ -22,15 +35,18 @@ const SortSelector = () => {
         _focus={{ boxShadow: "outline" }}
         rightIcon={<FaChevronDown />}
       >
-        Thing{" "}
+        {sortOrderLabel}
       </MenuButton>
       <MenuList>
-        <MenuItem>Relevance</MenuItem>
-        <MenuItem>Date added</MenuItem>
-        <MenuItem>Name</MenuItem>
-        <MenuItem>Release date</MenuItem>
-        <MenuItem>Popularity</MenuItem>
-        <MenuItem>Average rating</MenuItem>
+        {sortOrders.map((order) => (
+          <MenuItem
+            onClick={() => onSelectSortOrder(order.value)}
+            key={order.value}
+            value={order.value}
+          >
+            {order.label}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   );
