@@ -1,4 +1,4 @@
-const results = [
+export default [
   {
     id: 4,
     name: "Action",
@@ -875,4 +875,3 @@ const results = [
   },
 ];
 
-export default results;
